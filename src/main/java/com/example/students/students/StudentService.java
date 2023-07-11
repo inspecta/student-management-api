@@ -2,6 +2,8 @@ package com.example.students.students;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,25 +26,31 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public void registerStudent(Student student) {
+    public ResponseEntity<String> registerStudent(Student student) {
         // Check in an email already exists
         Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
-        // If it does, throw an exception
 
+        // If it does, throw an exception
         if(studentByEmail.isPresent()){
             throw new IllegalStateException("Email already exists.");
         }
+
         // Else, save the student
         studentRepository.save(student);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Student created successfully!");
+
     }
 
-    public void removeStudent(Long id) {
+    public ResponseEntity<String> removeStudent(Long id) {
 //        studentRepository.deleteById(id);
         boolean exists = studentRepository.existsById(id);
         if(!exists) {
             throw new IllegalStateException("Student with id " + id + " does not exist!");
         }
         studentRepository.deleteById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Student with id " + id + " deleted successfully!");
     }
 
     @Transactional
