@@ -1,7 +1,7 @@
-package com.example.students.students;
+package com.example.students.students.Repositories;
 
+import com.example.students.students.Model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

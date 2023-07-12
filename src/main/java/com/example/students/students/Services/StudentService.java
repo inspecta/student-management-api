@@ -1,12 +1,13 @@
-package com.example.students.students;
+package com.example.students.students.Services;
 
+import com.example.students.students.Model.Student;
+import com.example.students.students.Repositories.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
