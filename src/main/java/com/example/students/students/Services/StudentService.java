@@ -44,14 +44,21 @@ public class StudentService {
     }
 
     public ResponseEntity<String> removeStudent(Long id) {
-//        studentRepository.deleteById(id);
-        boolean exists = studentRepository.existsById(id);
-        if(!exists) {
-            throw new IllegalStateException("Student with id " + id + " does not exist!");
-        }
-        studentRepository.deleteById(id);
+        try {
+            boolean exists = studentRepository.existsById(id);
+            if(!exists) {
+                String errorMessage = "Student with id " + id + " does not exist!";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+            }
+            studentRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Student with id: " + id + " deleted successfully!");
 
-        return ResponseEntity.status(HttpStatus.OK).body("Student with id " + id + " deleted successfully!");
+        }catch (Exception e) {
+
+            String errorMessage = "An error occurred while deleting the student: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+
+        }
     }
 
     @Transactional
